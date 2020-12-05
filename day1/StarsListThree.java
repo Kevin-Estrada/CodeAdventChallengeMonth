@@ -1,3 +1,5 @@
+package day1;
+
 import java.io.*;
 
 public class StarsListThree {
@@ -8,7 +10,6 @@ public class StarsListThree {
         try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
             String st;
             while ((st = br.readLine()) != null) {
-                // System.out.println(st);
                 size++;
             }
         } catch (Exception e) {

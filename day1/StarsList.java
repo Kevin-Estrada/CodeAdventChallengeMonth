@@ -1,3 +1,5 @@
+package day1;
+
 import java.io.*;
 
 public class StarsList {
@@ -8,7 +10,6 @@ public class StarsList {
         try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
             String st;
             while ((st = br.readLine()) != null) {
-                // System.out.println(st);
                 size++;
             }
         } catch (Exception e) {
@@ -27,9 +28,7 @@ public class StarsList {
             String st;
             while ((st = br.readLine()) != null) {
                 int inum = Integer.parseInt(st);
-                // System.out.println(inum);
                 arrayList[count] = inum;
-                // System.out.println("arrayList[" + count + "]: " + arrayList[count]);
                 count++;
             }
         } catch (Exception e) {
@@ -46,9 +45,7 @@ public class StarsList {
         for (int i = 0; i < listNums.length; i++) {
             for (int j = 1; j < listNums.length; j++) {
                 firstNum = listNums[i];
-                // System.out.println("First Num: " + firstNum);
                 secondNum = listNums[j];
-                // System.out.println("Second Num: " + secondNum);
                 if ((firstNum + secondNum) == 2020) {
                     System.out.println("The first number is: " + firstNum);
                     System.out.println("The second number is: " + secondNum);

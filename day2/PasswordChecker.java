@@ -1,31 +1,30 @@
 package day2;
 
 import java.io.*;
+import java.util.List;
+
+import ReadFileClass.ReadFileClass;
 
 public class PasswordChecker {
 
     private static int returnResult(File textFile) throws IOException {
         int count = 0;
+        ReadFileClass fileReader = new ReadFileClass(textFile);
+        List<String> listOfStrings = fileReader.getStringArray();
+        for (String st : listOfStrings) {
+            String[] values = st.split(" ");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
-            String st;
-            while ((st = br.readLine()) != null) {
-                String[] values = st.split(" ");
+            int[] minAndMaxValues = getMinMaxNum(values[0]);
+            int minNum = minAndMaxValues[0];
+            int maxNum = minAndMaxValues[1];
 
-                int[] minAndMaxValues = getMinMaxNum(values[0]);
-                int minNum = minAndMaxValues[0];
-                int maxNum = minAndMaxValues[1];
+            char letter = getChar(values[1]);
 
-                char letter = getChar(values[1]);
+            char[] charArray = getCharArray(values[2]);
 
-                char[] charArray = getCharArray(values[2]);
-
-                if (isPasswordValid(minNum, maxNum, letter, charArray)) {
-                    count++;
-                }
+            if (isPasswordValid(minNum, maxNum, letter, charArray)) {
+                count++;
             }
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
         }
 
         return count;
@@ -33,8 +32,7 @@ public class PasswordChecker {
 
     private static char getChar(String str) {
         String[] stringArray = str.split(":");
-        char letter = stringArray[0].charAt(0);
-        return letter;
+        return stringArray[0].charAt(0);
     }
 
     private static int[] getMinMaxNum(String str) {
@@ -47,8 +45,7 @@ public class PasswordChecker {
     }
 
     private static char[] getCharArray(String str) {
-        char[] charArray = str.toCharArray();
-        return charArray;
+        return str.toCharArray();
     }
 
     private static boolean isPasswordValid(int minNum, int maxNum, char letter, char[] charArray) {
@@ -61,9 +58,8 @@ public class PasswordChecker {
 
         if (minNum <= numOfOccur && maxNum >= numOfOccur) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void displayResults(File textFile) throws IOException {

@@ -31,7 +31,7 @@ public class TreeEncounter {
                 // System.out.println("After adding to jIndex: " + jIndex);
                 // System.out.println("-----------------------------------");
 
-                if (iIndex == dataList.size()) {
+                if (iIndex >= dataList.size()) {
                     return count;
                 }
             }

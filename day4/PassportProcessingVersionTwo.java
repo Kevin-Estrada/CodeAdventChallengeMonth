@@ -26,7 +26,7 @@ public class PassportProcessingVersionTwo {
     private boolean isPasswordValid(HashMap<String, String> map) {
         System.out.println("I made it into isPasswordValid method");
         String[] list = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid" };
-        int totalfields = list.length;
+        int totalfields = list.length - 1;
         String optionalAttr = "cid";
         ArrayList<String> listOfAtts = new ArrayList<String>();
         for (int i = 0; i < list.length; i++) {
@@ -38,6 +38,7 @@ public class PassportProcessingVersionTwo {
             listOfAtts.remove(optionalAttr);
         } else {
             System.out.println("The cid is not avaliable");
+            listOfAtts.remove(optionalAttr);
         }
 
         for (int i = 0; i < listOfAtts.size(); i++) {
@@ -46,14 +47,130 @@ public class PassportProcessingVersionTwo {
             }
 
         }
-
-        if (totalfields == 0 || totalfields == 1) {
-            System.out.println("This password is valid\n");
-            return true;
+        if (totalfields == 0) {
+            if (isCredentialsValid(map)) {
+                System.out.println("This password is valid\n");
+                return true;
+            }
         }
 
         System.out.println("This password is not valid\n");
         return false;
+    }
+
+    private boolean isCredentialsValid(HashMap<String, String> map) {
+        String[] list = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid" };
+        String optionalAttr = "cid";
+        ArrayList<String> listOfAtts = new ArrayList<String>();
+        for (int i = 0; i < list.length; i++) {
+            listOfAtts.add(list[i]);
+        }
+
+        if (map.containsKey(optionalAttr)) {
+            listOfAtts.remove(optionalAttr);
+        } else {
+            listOfAtts.remove(optionalAttr);
+        }
+
+        for (int i = 0; i < listOfAtts.size(); i++) {
+            if (conditionalFunctions(listOfAtts.get(i), map.get(listOfAtts.get(i)))) {
+                System.out.println("Attribute " + listOfAtts.get(i) + " is valid.");
+            } else {
+                System.out.println("Attribute " + listOfAtts.get(i) + " is not valid.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean conditionalFunctions(String param, String mapValue) {
+        // System.out.println("Passing in: " + param);
+        switch (param) {
+            case "byr":
+                if (mapValue.length() == 4) {
+                    int year = Integer.parseInt(mapValue);
+                    if (year >= 1920 && year <= 2002) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            case "iyr":
+                if (mapValue.length() == 4) {
+                    int year = Integer.parseInt(mapValue);
+                    if (year >= 2010 && year <= 2020) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            case "eyr":
+                if (mapValue.length() == 4) {
+                    int year = Integer.parseInt(mapValue);
+                    if (year >= 2020 && year <= 2030) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            case "hgt":
+                if (mapValue.contains("cm") || mapValue.contains("in")) {
+                    if (mapValue.contains("cm")) {
+                        String heightString = mapValue.substring(0, mapValue.length() - 2);
+                        int height = Integer.parseInt(heightString);
+                        if (height >= 150 && height <= 193) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        String heightString = mapValue.substring(0, mapValue.length() - 2);
+                        int height = Integer.parseInt(heightString);
+                        if (height >= 59 && height <= 76) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            case "hcl":
+                char alphabet[] = { 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+                        'x', 'y', 'z' };
+                if (mapValue.startsWith("#") && mapValue.length() == 7) {
+                    for (char c : alphabet) {
+                        if (!(mapValue.indexOf(c) == -1)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            case "ecl":
+                if (mapValue.equals("amb") || mapValue.equals("blu") || mapValue.equals("brn") || mapValue.equals("gry")
+                        || mapValue.equals("grn") || mapValue.equals("hzl") || mapValue.equals("oth")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "pid":
+                if (mapValue.length() == 9) {
+                    return true;
+                } else {
+                    return false;
+                }
+            default:
+                System.out.println("no match");
+                return false;
+        }
     }
 
     private HashMap<String, String> buildHashMap(String text) {

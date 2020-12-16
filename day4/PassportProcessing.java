@@ -25,7 +25,7 @@ public class PassportProcessing {
     private boolean isPasswordValid(HashMap<String, String> map) {
         System.out.println("I made it into isPasswordValid method");
         String[] list = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid" };
-        int totalfields = list.length;
+        int totalfields = list.length - 1;
         String optionalAttr = "cid";
         ArrayList<String> listOfAtts = new ArrayList<String>();
         for (int i = 0; i < list.length; i++) {
@@ -37,6 +37,7 @@ public class PassportProcessing {
             listOfAtts.remove(optionalAttr);
         } else {
             System.out.println("The cid is not avaliable");
+            listOfAtts.remove(optionalAttr);
         }
 
         for (int i = 0; i < listOfAtts.size(); i++) {
@@ -46,7 +47,7 @@ public class PassportProcessing {
 
         }
 
-        if (totalfields == 0 || totalfields == 1) {
+        if (totalfields == 0) {
             System.out.println("This password is valid\n");
             return true;
         }

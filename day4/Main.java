@@ -10,5 +10,8 @@ public class Main {
         PassportProcessing passportPartOne = new PassportProcessing();
         passportPartOne.displayResult(file);
 
+        PassportProcessingVersionTwo passportPartTwo = new PassportProcessingVersionTwo();
+        passportPartTwo.displayResult(file);
+
     }
 }
